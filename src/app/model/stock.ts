@@ -1,4 +1,4 @@
-export class Barcode {
+export class Stock {
     code: string;
     date: Date;
 

@@ -1,20 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { StockService } from '../api/stock.service';
-import { StockList } from '../model/stock-response';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss']
 })
-export class Tab1Page implements OnInit {
-  stocks: StockList[] = [];
+export class Tab1Page {
 
-  constructor(private stockService: StockService) {}
+  constructor() {}
 
-  ngOnInit() {
-    this.stockService.getStockList().subscribe(data => {
-      this.stocks.push(data);
-    });
-  }
 }
