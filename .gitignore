@@ -30,7 +30,7 @@ log.txt
 /bazel-out
 
 .env
-src/environments/environment.prod.ts
+src/environments/*
 
 
 # Node
