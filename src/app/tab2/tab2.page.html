@@ -1,17 +1,50 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Tab 2
-    </ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/tab2"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>Subjects</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
+      <ion-title size="large">Subjects</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+  <div class="ion-justify-content-center">
+    <ion-spinner *ngIf="!subjects.length" name="circular"></ion-spinner>
+  </div>
+
+  <ion-list *ngIf="subjects.length">
+    <ion-card *ngFor="let item of subjects">
+      <ion-card-header>
+        <ion-card-title>{{ item.zkratka }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>Katedra: {{ item.katedra }}</p>
+        <br>
+        <p>Typ hodnocení: 
+            <span *ngIf="item.zk_typ_hodnoceni === 'S|N'">Zápočet<br>Započet:
+              <span *ngIf="item.zk_hodnoceni === 'S'">Splněn</span>
+              <span *ngIf="item.zk_hodnoceni === 'N'">Nesplněn</span>
+            </span>
+            <span *ngIf="item.zk_typ_hodnoceni === 'A|B|C|D|E|F|FX' && item.zppzk_uznan !== null">Zkouška
+              <br>
+              <br>
+              Hodnocení:  {{item.zk_hodnoceni}}
+              <br>
+              Započet: {{ item.zppzk_uznan ? 'Splněn' : 'Nesplněn' }}
+            </span>
+            <span *ngIf="item.zk_typ_hodnoceni === 'A|B|C|D|E|F|FX' && item.zppzk_uznan === null">Klasifikovaný zápočet
+              <br>
+              Hodnocení:  {{item.zk_hodnoceni}}
+            </span>
+        </p>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
 </ion-content>
