@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { Storage } from '@ionic/storage-angular';
+import { AppStorageService } from 'src/app/app-storage.service';
+
  
 
 @Component({
@@ -12,15 +13,18 @@ export class Tab3Page {
   username: string = '';
   password: string = '';;
 
-  constructor(private navCtrl: NavController, private storage: Storage) {
-    this.storage.create();
+  constructor(private navCtrl: NavController, private storage: AppStorageService) {
   }
 
+
+  async ionViewWillEnter() {
+    this.username = await this.storage.get('username');
+    this.password = await this.storage.get('password');
+  }
   async saveCredentials() {
     await this.storage.set('username', this.username);
     await this.storage.set('password', this.password);
     console.log('Credentials saved');
-    this.navCtrl.back();
   }
 
   cancel() {

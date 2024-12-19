@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { ScheduleService } from './schedule.service';
 
-describe('UpcService', () => {
+describe('ScheduleService', () => {
   let service: ScheduleService;
 
   beforeEach(() => {

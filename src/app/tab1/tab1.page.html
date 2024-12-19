@@ -1,43 +1,43 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/tabs/tab1"></ion-back-button>
-    </ion-buttons>
-
-    <ion-title>Rozvrh</ion-title>
+    <ion-title>
+      <ion-icon name="calendar"></ion-icon>
+      Rozvrh
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large"
-        >{{ "Loading..."}}</ion-title
-      >
+      <ion-title size="large">Rozvrh</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <div class="ion-justify-content-center">
-    <ion-spinner *ngIf="!schedule" name="circular"></ion-spinner>
-  </div>
+  <ion-searchbar (ionInput)="filterSchedule($event)"></ion-searchbar>
 
-  <ion-card  *ngFor="let item of schedule">
-    <ion-card-header>
-      <ion-card-title>{{  item.nazev }}</ion-card-title>
-    </ion-card-header>
+  <ion-item>
+    <ion-label>Vyber den</ion-label>
+    <ion-select (ionChange)="filterByDay($event)" [value]="selectedDay">
+      <ion-select-option value="all">Vše</ion-select-option>
+      <ion-select-option *ngFor="let day of getDays()" [value]="day">{{ day }}</ion-select-option>
+    </ion-select>
+  </ion-item>
 
-    <ion-card-content>
-      {{ item.ucitel.jmeno }}
-      {{ item.ucitel.prijmeni }}
-      <br>
-      {{ item.typAkce }}
-    </ion-card-content>
-    <ion-card-content>
-      {{item.den}}
-      {{item.hodinaSkutOd.value }} - {{ item.hodinaSkutDo.value }}
-      <br>
-      {{item.budova}}/
-      {{item.mistnost}}
-    </ion-card-content>
-  </ion-card>
+  <ng-container *ngFor="let day of getDays()">
+    <ion-card *ngIf="filteredScheduleByDay[day] && filteredScheduleByDay[day].length">
+      <ion-card-header>
+        <ion-card-title>{{ day }}</ion-card-title>
+      </ion-card-header>
+      <ion-list>
+        <ion-item *ngFor="let item of filteredScheduleByDay[day]">
+          <ion-label>
+            <h2>{{ item.nazev }}</h2>
+            <p>{{ item.predmet }}</p>
+            <p>{{ item.den }} {{ item.hodinaSkutOd.value }} - {{ item.hodinaSkutDo.value }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card>
+  </ng-container>
 </ion-content>
